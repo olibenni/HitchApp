@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Hitch3</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_role">Role</string>
+    <string name="title_activity_driver">Driver</string>
+    <string name="title_activity_passenger">Passenger</string>
+</resources>
