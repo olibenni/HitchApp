@@ -52,8 +52,6 @@ public class LogIn extends AppCompatActivity {
     }
 
     public void onLogIn(View view){
-        System.out.println("HERE");
-
         Intent intent = new Intent(this, Role.class);
         startActivity(intent);
     }

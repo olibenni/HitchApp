@@ -1,5 +1,6 @@
 package com.myapp.hitch3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,16 @@ public class Role extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public void onDriver(View view){
+        Intent intent = new Intent(this, Driver.class);
+        startActivity(intent);
+    }
+
+    public void onPassenger(View view){
+        Intent intent = new Intent(this, Passenger.class);
+        startActivity(intent);
     }
 
 }
