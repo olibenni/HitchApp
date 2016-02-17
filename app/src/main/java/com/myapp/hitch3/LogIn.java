@@ -10,13 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
+import com.myapp.hitch3.util.API;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class LogIn extends AppCompatActivity {
 
@@ -65,32 +60,9 @@ public class LogIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String readStream(InputStream is) {
-        try {
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            int i = is.read();
-            while(i != -1) {
-                bo.write(i);
-                i = is.read();
-            }
-            return bo.toString();
-        } catch (IOException e) {
-            return "";
-        }
-    }
-
     public void onLogIn(View view) throws IOException{
         System.out.println("LOGGING IN");
-        URL url = new URL("http://10.0.2.2:8080/fromPassenger?info='hello'");
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            System.out.println(readStream(in));
-        }
-        finally {
-            urlConnection.disconnect();
-        }
-
+        API.logIn();
         Intent intent = new Intent(this, Role.class);
         startActivity(intent);
     }
