@@ -28,6 +28,7 @@ public class Passenger extends AppCompatActivity {
     private final int[] postalCodes = new int[] {101, 103, 104, 105, 107, 108, 109, 110, 111, 112, 113};
     private boolean shouldSend = false;
     private int pickupPostalCode;
+    private int dropOffPostalCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,10 @@ public class Passenger extends AppCompatActivity {
                 System.out.println(shouldSend);
                 System.out.println("ShouldSend");
                 if (shouldSend) {
-                    int dropoffPostalCode = postalCodes[position];
+                    dropOffPostalCode = postalCodes[position];
                     System.out.println("PREPARE SEND");
                     try {
-                        API.newPassenger(pickupPostalCode, dropoffPostalCode, 123456);
+                        API.newPassenger(pickupPostalCode, dropOffPostalCode);
                     } catch (IOException e) {
                         System.out.print("FAIL");
                     }

@@ -66,6 +66,4 @@ public class LogIn extends AppCompatActivity {
         Intent intent = new Intent(this, Role.class);
         startActivity(intent);
     }
-
-
 }

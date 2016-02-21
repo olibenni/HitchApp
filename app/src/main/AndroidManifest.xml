@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myapp.hitch3">
+    <!--Allow app to use internet connection, needed to make requests-->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -30,7 +31,7 @@
         <activity
             android:name=".Passenger"
             android:label="@string/title_activity_passenger"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
