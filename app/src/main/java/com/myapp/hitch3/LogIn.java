@@ -10,15 +10,42 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.myapp.hitch3.util.API;
 import java.io.IOException;
+import com.facebook.FacebookSdk;
 
 public class LogIn extends AppCompatActivity {
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        System.out.println("SUCCESS");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        System.out.println("CANCEL");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        System.out.println("FAIL");
+                    }
+                });
         // Allow network access, needed to make httprequests
         // This will be fixed when we call it with async (using threads)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -60,8 +87,7 @@ public class LogIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLogIn(View view) throws IOException{
-        System.out.println("LOGGING IN");
+    public void onLogIn(View view) throws IOException {
         API.logIn();
         Intent intent = new Intent(this, Role.class);
         startActivity(intent);

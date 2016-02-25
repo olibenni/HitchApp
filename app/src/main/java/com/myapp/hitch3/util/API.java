@@ -1,5 +1,10 @@
 package com.myapp.hitch3.util;
 
+import com.myapp.hitch3.dao.RidesDAO;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +14,8 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by olafurma on 17.2.2016.
@@ -26,6 +33,24 @@ public class API {
         }
         finally {
             urlConnection.disconnect();
+        }
+    }
+
+    public static List<RidesDAO> fetchRides() throws IOException, JSONException{
+        List<RidesDAO> ridesDAOs = new ArrayList<RidesDAO>();
+        URL url = new URL("http://10.0.2.2:8080/rides");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            JSONArray jsonArray = new JSONArray(readStream(in));
+            for(int i = 0; i < jsonArray.length(); i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                ridesDAOs.add( new RidesDAO(jsonObject) );
+            }
+        }
+        finally {
+            urlConnection.disconnect();
+            return ridesDAOs;
         }
     }
 

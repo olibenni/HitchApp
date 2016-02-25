@@ -11,17 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.myapp.hitch3.util.API;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOError;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
 
 public class Passenger extends AppCompatActivity {
 
@@ -61,15 +52,12 @@ public class Passenger extends AppCompatActivity {
                 String message = "You clicked # " + position +
                         " which is string: " + textView.getText().toString();
 
-                System.out.println(shouldSend);
-                System.out.println("ShouldSend");
                 if (shouldSend) {
                     dropOffPostalCode = postalCodes[position];
-                    System.out.println("PREPARE SEND");
                     try {
                         API.newPassenger(pickupPostalCode, dropOffPostalCode);
                     } catch (IOException e) {
-                        System.out.print("FAIL");
+                        System.out.print("FAIL"); // TODO: log or handle
                     }
                 } else {
                     pickupPostalCode = postalCodes[position];

@@ -12,4 +12,10 @@
     tools:context="com.myapp.hitch3.Driver"
     tools:showIn="@layout/activity_driver">
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/availableRides"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

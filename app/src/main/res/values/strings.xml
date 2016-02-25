@@ -4,4 +4,5 @@
     <string name="title_activity_role">Role</string>
     <string name="title_activity_driver">Driver</string>
     <string name="title_activity_passenger">Passenger</string>
+    <string name="facebook_app_id">753361704797924</string>
 </resources>
