@@ -19,10 +19,20 @@ import java.util.List;
 
 /**
  * Created by olafurma on 17.2.2016.
+ *
+ * All HTTP Requests go through this class.
+ * API handles all cookies and sessionId.
+ * So all requests will have their sessionId/cookies managed from the server response.
  */
 public class API {
     static CookieManager cookieManager = new CookieManager();
 
+    /**
+     * Sends a request to create a new ride to the server.
+     * @param pickup        Integer, postal code of the location a passenger wants to depart from.
+     * @param dropOff       Integer, postal code of the location a passenger wants to travel to.
+     * @throws IOException
+     */
     public static void newPassenger(int pickup, int dropOff) throws IOException {
         URL url = new URL("http://10.0.2.2:8080/rides/newRide?from="+pickup+"&to="+dropOff);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -36,15 +46,24 @@ public class API {
         }
     }
 
+    /**
+     * Fetches all available rides on the server.
+     * @return List<RidesDAO>       A list of all rides on the server.
+     * @throws IOException
+     * @throws JSONException
+     */
     public static List<RidesDAO> fetchRides() throws IOException, JSONException{
         List<RidesDAO> ridesDAOs = new ArrayList<RidesDAO>();
         URL url = new URL("http://10.0.2.2:8080/rides");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            // Takes the response from the server, parses it to a string and parses that string to
+            // a JSON array.
             JSONArray jsonArray = new JSONArray(readStream(in));
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                // Creates a new RidesDAO from the JSONObject and adds to a list of RidesDAOs.
                 ridesDAOs.add( new RidesDAO(jsonObject) );
             }
         }
@@ -54,6 +73,12 @@ public class API {
         }
     }
 
+    /**
+     * Currently makes a request that returns the sessionId for further requests.
+     * Sets the cookies for this session. Prints out the sessionId for fun.
+     * @throws IOException
+     */
+    // TODO: Change documentation when facebook login has been implemented
     public static void logIn()throws IOException {
         //Needed to set the sessionId received from the server
         CookieHandler.setDefault(cookieManager);
@@ -70,6 +95,13 @@ public class API {
             urlConnection.disconnect();
         }
     }
+
+    /**
+     * readStream is used to handle all responses from a server and convert them to a string
+     * that is more manageable.
+     * @param is    InputStream from the server.
+     * @return      String representation of the servers response.
+     */
     private static String readStream(InputStream is) {
         try {
             ByteArrayOutputStream bo = new ByteArrayOutputStream();

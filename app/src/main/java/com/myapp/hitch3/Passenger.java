@@ -14,10 +14,21 @@ import android.widget.Toast;
 import com.myapp.hitch3.util.API;
 import java.io.IOException;
 
+/**
+ * Created by olafurma 24.1.2016
+ *
+ * Passenger activity
+ *
+ * When entering passenger activity a list is populated with available places to travel from and to
+ * First click registers the pickup location and the second click registers the dropOff location.
+ *
+ * Also on the second click, both the pickup and dropOff locations are sent to the server to be
+ * registered under the current user.
+ */
 public class Passenger extends AppCompatActivity {
 
     private final int[] postalCodes = new int[] {101, 103, 104, 105, 107, 108, 109, 110, 111, 112, 113};
-    private boolean shouldSend = false;
+    private boolean shouldSend = false; // Alternates between clicks.
     private int pickupPostalCode;
     private int dropOffPostalCode;
 
@@ -41,6 +52,11 @@ public class Passenger extends AppCompatActivity {
         registerClickCallback();
     }
 
+    /**
+     * Handles a click on the list of places
+     * If click is a even number click it sends a request to the server
+     * registering the ride
+     */
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.postalCodes);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,14 +80,17 @@ public class Passenger extends AppCompatActivity {
                 }
 
                 shouldSend = !shouldSend;
-
+                // TODO: should not send current message, change to something more informative
                 Toast.makeText(Passenger.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    /**
+     * Sets the list af available places
+     */
     private void populateListView() {
-        // Create a list of items
+        // Create a list of places
         String[] places = {
                 "101 - Miðbær",
                 "103 - Háleiti",

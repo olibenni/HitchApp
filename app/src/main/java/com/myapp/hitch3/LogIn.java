@@ -20,6 +20,14 @@ import com.myapp.hitch3.util.API;
 import java.io.IOException;
 import com.facebook.FacebookSdk;
 
+/**
+ * Created by olafurma 24.1.2016
+ *
+ * Login activity
+ *
+ * Currently has only one image button that logs into the application by receiving a sessionId
+ * from the server and storing it.
+ */
 public class LogIn extends AppCompatActivity {
     CallbackManager callbackManager;
 
@@ -27,6 +35,7 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Setup for Facebook log in, hasn't been implemented fully.
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -46,7 +55,8 @@ public class LogIn extends AppCompatActivity {
                         System.out.println("FAIL");
                     }
                 });
-        // Allow network access, needed to make httprequests
+
+        // Allow network access, needed to make http requests
         // This will be fixed when we call it with async (using threads)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -87,6 +97,7 @@ public class LogIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Logs in and opens up the Role activity
     public void onLogIn(View view) throws IOException {
         API.logIn();
         Intent intent = new Intent(this, Role.class);

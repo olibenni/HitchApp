@@ -22,10 +22,20 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Created by olafurma on 24.1.2016.
+ *
+ * Driver activity
+ *
+ * When entering Driver activity it fetches, every 5 seconds, the list of available rides
+ * and updates it view with the rides.
+ * When clicking a text box popup/dialog/modal appears where the Driver can send a message to the
+ * corresponding passenger.
+ */
 public class Driver extends AppCompatActivity {
-    private List<RidesDAO> rides;
-    private Timer timer = new Timer();
-    private final Driver self = this;
+    private List<RidesDAO> rides;      // The rides from the server
+    private Timer timer = new Timer(); // Used to update the rides from the server
+    private final Driver self = this;  // Saves this scope, used when running another thread
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +52,14 @@ public class Driver extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        registerClickCallback();
+        registerClickCallback(); // Sets the handle for the click event on the list of rides
     }
+
+    /**
+     * Clicking on a ride on the list activates a text box popup/dialog/modal
+     * used to send a message to the corresponding passenger
+     * TODO: Currently only shows a message detailing the passenger info. Create the modal
+     */
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.availableRides);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +77,13 @@ public class Driver extends AppCompatActivity {
         });
     }
 
+    /**
+     * When activity Driver is not created or paused (running in background)
+     * it stops updating the rides list.
+     * When Driver resumes it starts updating the rides list again
+     *
+     * fetches all rides from server every 5 seconds.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -73,6 +96,10 @@ public class Driver extends AppCompatActivity {
         }, 0, 5000);
     }
 
+    /**
+     * When moving to another activity og moving Driver to the background it stops updating its
+     * rides list.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -80,6 +107,10 @@ public class Driver extends AppCompatActivity {
         System.out.println("Number of timed tasks purged: " + timer.purge());
     }
 
+    /**
+     * When moving to another activity og moving Driver to the background it stops updating its
+     * rides list.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -87,8 +118,11 @@ public class Driver extends AppCompatActivity {
         System.out.println("Number of timed tasks purged: " + timer.purge());
     }
 
+    /**
+     * Fetches all rides from the server and updates the view.
+     */
     public void fetchRides(){
-        System.out.println("API fetching rides");
+        System.out.println("API fetching rides"); // TODO: Remove
         try {
             rides = API.fetchRides();
             populateListView();
@@ -99,7 +133,11 @@ public class Driver extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the current view
+     */
     private void populateListView() {
+        // Dynamic changes in the UI must be handles by separated threads.
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -112,6 +150,7 @@ public class Driver extends AppCompatActivity {
                 }
 
                 // Build adapter
+                // Pass self as current scope as "this" would be the scope of the UI thread.
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(self, R.layout.postal_codes, availableRides);
 
                 // Configure the list view
