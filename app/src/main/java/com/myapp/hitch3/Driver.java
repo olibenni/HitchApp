@@ -42,12 +42,6 @@ public class Driver extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                fetchRides();
-            }
-        }, 0, 5000);
         registerClickCallback();
     }
     private void registerClickCallback() {
@@ -66,6 +60,19 @@ public class Driver extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                fetchRides();
+            }
+        }, 0, 5000);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
