@@ -9,24 +9,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.myapp.hitch3.Passenger"
-    tools:showIn="@layout/activity_passenger"
-    android:id="@+id/passengerContainer">
+    tools:context="com.myapp.hitch3.ReadMessages"
+    tools:showIn="@layout/activity_read_messages">
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:gravity="start"
-        android:id="@+id/postalCodes"/>
-
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel Ride"
-        android:id="@+id/cancelRide"
-        android:layout_below="@+id/postalCodes"
-        android:layout_centerHorizontal="true"
-        android:onClick="onCancelClick" />
-
+        android:id="@+id/availableMessages"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

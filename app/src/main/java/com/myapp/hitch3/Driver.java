@@ -1,10 +1,16 @@
 package com.myapp.hitch3;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,14 +50,6 @@ public class Driver extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         registerClickCallback(); // Sets the handle for the click event on the list of rides
     }
 
@@ -71,7 +69,7 @@ public class Driver extends AppCompatActivity {
                 String message = "You clicked # " + position +
                         " which is string: " + textView.getText().toString() +
                         ". Its passengerId is: " + rides.get(position).getId();
-
+                createMessage(rides.get(position).getId());
                 Toast.makeText(Driver.this, message, Toast.LENGTH_LONG).show();
             }
         });
@@ -104,7 +102,7 @@ public class Driver extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         timer.cancel();
-        System.out.println("Number of timed tasks purged: " + timer.purge());
+        timer.purge();
     }
 
     /**
@@ -115,14 +113,13 @@ public class Driver extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
-        System.out.println("Number of timed tasks purged: " + timer.purge());
+        timer.purge();
     }
 
     /**
      * Fetches all rides from the server and updates the view.
      */
-    public void fetchRides(){
-        System.out.println("API fetching rides"); // TODO: Remove
+    public void fetchRides() {
         try {
             rides = API.fetchRides();
             populateListView();
@@ -158,5 +155,18 @@ public class Driver extends AppCompatActivity {
                 list.setAdapter(adapter);
             }
         });
+    }
+
+    /**
+     * This function is called on when choosing a requested ride.
+     * Opens up the CreateMessage activity and sends it the id of the user that owns
+     * the requested ride that was chosen.
+     *
+     * @param id    Integer, the id of the user that was clicked on
+     */
+    public void createMessage(int id) {
+        Intent intent = new Intent(this, CreateMessage.class);
+        intent.putExtra("ID", id);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.myapp.hitch3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.myapp.hitch3.util.API;
+
 import java.io.IOException;
 
 /**
@@ -43,8 +45,7 @@ public class Passenger extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                goToMessages();
             }
         });
 
@@ -75,6 +76,7 @@ public class Passenger extends AppCompatActivity {
                     } catch (IOException e) {
                         System.out.print("FAIL"); // TODO: log or handle
                     }
+                    goToMessages();
                 } else {
                     pickupPostalCode = postalCodes[position];
                 }
@@ -113,4 +115,20 @@ public class Passenger extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
+    /**
+     * Opens up ReadMessages activity
+     */
+    public void goToMessages() {
+        Intent intent = new Intent(this, ReadMessages.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Sends a request to cancel the users ride request
+     * @throws IOException
+     */
+    public void onCancelClick(View view) throws IOException {
+        API.cancelRide();
+        Toast.makeText(Passenger.this, "Your ride has been cancelled", Toast.LENGTH_LONG).show();
+    }
 }

@@ -5,4 +5,6 @@
     <string name="title_activity_driver">Driver</string>
     <string name="title_activity_passenger">Passenger</string>
     <string name="facebook_app_id">753361704797924</string>
+    <string name="title_activity_read_messages">ReadMessages</string>
+    <string name="title_activity_create_message">CreateMessage</string>
 </resources>

@@ -10,11 +10,15 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,6 +41,23 @@ public class API {
         URL url = new URL("http://10.0.2.2:8080/rides/newRide?from="+pickup+"&to="+dropOff);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("PUT");
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            System.out.println(readStream(in));
+        }
+        finally {
+            urlConnection.disconnect();
+        }
+    }
+
+    /**
+     * Cancels the ride for the current user.
+     * @throws IOException
+     */
+    public static void cancelRide() throws IOException{
+        URL url = new URL("http://10.0.2.2:8080/rides/cancelRide");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("DELETE");
         try {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             System.out.println(readStream(in));
@@ -93,6 +114,50 @@ public class API {
         }
         finally {
             urlConnection.disconnect();
+        }
+    }
+
+    /**
+     * Send a message to a user with corresponding id.
+     * @param message       String, message to be sent to a user
+     * @param id            Integer, id that identifies a user
+     * @throws IOException
+     */
+    public static void sendMessage(String message, int id) throws IOException{
+        URL url = new URL("http://10.0.2.2:8080/messages/createMessage?message="+message+"&id="+id);
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.connect();
+
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            System.out.println(readStream(in));
+        }
+        finally {
+            urlConnection.disconnect();
+        }
+    }
+
+    /**
+     * Fetches all messages from the server that have been sent to the current user.
+     * @return List<String>         A list of all messages that have been sent to the current user
+     * @throws IOException
+     */
+    public static List<String> fetchMessages() throws IOException {
+        List<String> messages = new ArrayList<String>();
+        URL url = new URL("http://10.0.2.2:8080/messages");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.connect();
+
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            String response = readStream(in);
+            String[] messageList = response.substring(1, response.length() - 1).split(",");
+            messages.addAll(Arrays.asList(messageList));
+        }
+        finally {
+            urlConnection.disconnect();
+            return messages;
         }
     }
 

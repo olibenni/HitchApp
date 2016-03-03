@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#68f56c">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Send message"
+        android:id="@+id/sendMessageHeader"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/sendMessageHeader"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/inputText"
+        android:layout_gravity="center" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputText"
+        android:text="Send"
+        android:onClick="onSend"
+        android:id="@+id/sendButton"
+        android:layout_centerVertical="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputText"
+        android:layout_toRightOf="@+id/sendButton"
+        android:text="Cancel"
+        android:onClick="onCancel"
+        android:id="@+id/cancelButton"
+        android:layout_centerVertical="true" />
+</RelativeLayout>
