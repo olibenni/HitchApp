@@ -17,8 +17,6 @@ import java.io.IOException;
  * It gets sent the id of the user that owns the requested ride from Driver activity.
  */
 public class CreateMessage extends Activity {
-    // Get the id of the user that was included when creating the activity
-    private int id = getIntent().getIntExtra("ID", 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,9 @@ public class CreateMessage extends Activity {
      */
     public void onSend(View view) throws IOException {
         EditText inputText = (EditText) findViewById(R.id.inputText);
+
+        // Get the id of the user that was included when creating the activity
+        int id = getIntent().getIntExtra("ID", 0);
         API.sendMessage(inputText.getText().toString(), id);
     }
 

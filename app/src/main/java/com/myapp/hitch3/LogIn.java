@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.myapp.hitch3.util.API;
@@ -42,19 +43,22 @@ public class LogIn extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        System.out.println("SUCCESS");
+                        try {
+                            API.logIn();
+                        } catch (IOException e) {
+                            System.err.println(e.getMessage());
+                        }
                     }
-
                     @Override
                     public void onCancel() {
-                        System.out.println("CANCEL");
+                        System.exit(0);
                     }
-
                     @Override
                     public void onError(FacebookException exception) {
-                        System.out.println("FAIL");
+                        System.err.println(exception.getMessage());
                     }
-                });
+                }
+        );
 
         // Allow network access, needed to make http requests
         // This will be fixed when we call it with async (using threads)
@@ -64,6 +68,12 @@ public class LogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -93,5 +103,31 @@ public class LogIn extends AppCompatActivity {
         API.logIn();
         Intent intent = new Intent(this, Role.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        try {
+            API.cancelRide();
+        } catch (IOException e) {
+            finish();
+        }
     }
 }
