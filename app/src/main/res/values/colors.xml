@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="background">#283132</color>
+    <color name="passengerBackground">#BA932A</color>
+    <color name="passengerIcon">#6D5000</color>
+    <color name="passengerText">#FBDB83</color>
+    <color name="driverBackground">#AF283D</color>
+    <color name="driverIcon">#670010</color>
+    <color name="driverText">#ED7C8E</color>
+
+
 </resources>

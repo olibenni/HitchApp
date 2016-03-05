@@ -1,35 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.myapp.hitch3.Role"
+    android:weightSum="2"
+    android:layout_margin="0dp"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:showIn="@layout/activity_role">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passengerButton"
-        android:clickable="true"
-        android:onClick="onPassenger"
-        android:src="@drawable/thumb"
+    <--!
+        There are two LinearLayout's inside the parent linear layout (line 2 if you are confused)
+        Each LinearLayout packs together an image and text, making it look like a cool button
+        with an icon and text
+        Every LinearLayout has a 'weightSum' parameter its children have a 'layout_weight' paramenter
+                    -weightSum tells us how to divide up the space inside the layout, it can be
+                        any number
+                    -layout_weight tells us how much of the parent the object occupies.
+
+        tl:dr combined layout_weight's inside a parent (should) add up to the weightSum paramenter of the parent
+    -->
+
+    <--!
+        If you plan to play around with the padding (the margins) here is a "formula" to keep in mind
+
+        PassengerButtonTop = DriverButtonBottom = X
+        leftSides = rightSides = X (prefferably)
+        PassengerButtonBottom = DriverButtonTop = X/2
+    -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0pt"
+
+        android:layout_marginTop="5pt"
+        android:layout_marginBottom="2.5pt"
+        android:layout_marginLeft="5pt"
+        android:layout_marginRight="5pt"
+
+        android:id="@+id/top"
+        android:background="@color/passengerBackground"
+        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/driverButton"
-        android:src="@drawable/steering_wheel"
-        android:layout_below="@+id/passengerButton"
         android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:onClick="onDriver" />
+        android:layout_weight="1"
+        android:weightSum="2"
+        >
 
-</RelativeLayout>
+        <--!
+            To play with colors:
+
+                http://paletton.com/#uid=5000u0kllllaFw0g0qFqFg0w0aF
+                You will need 2 color schemes, one for the driver button and one for the passengerbutton
+
+                ImageButton: ImageButton has 2 colors:
+                                -- passangerBackground set as android:background
+                                -- passangerIcon       set as android:tint
+
+                TextView:    TextView has just one color
+                                -- passangerText       set as android:textColor
+
+            The same goes for the driver colors
+        -->
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@color/passengerBackground"
+            android:tint="@color/passengerIcon"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:id="@+id/passengerButton"
+            android:clickable="true"
+            android:onClick="onPassenger"
+            android:src="@drawable/thumb"
+            android:layout_weight="1.2"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Request a ride"
+            android:textColor="@color/passengerText"
+            android:background="@color/passengerBackground"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_weigth="0.8"
+            android:layout_toRightOf="@id/passengerButton"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0pt"
+
+        android:layout_marginTop="2.5pt"
+        android:layout_marginBottom="5pt"
+        android:layout_marginLeft="5pt"
+        android:layout_marginRight="5pt"
+
+        android:orientation="horizontal"
+        android:background="@color/driverBackground"
+        android:layout_below="@id/top"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:weightSum="2"
+        >
+
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:background="@color/driverBackground"
+            android:tint="@color/driverIcon"
+            android:paddingLeft="4pt"
+            android:id="@+id/driverButton"
+            android:clickable="true"
+            android:onClick="onPassenger"
+            android:src="@drawable/steering_wheel"
+            android:layout_weight="1.2"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="    View rides"
+            android:textColor="@color/driverText"
+            android:textSize="30sp"
+            android:id="@+id/driverText"
+            android:layout_gravity="center"
+            android:layout_weigth="0.8"
+            android:layout_toRightOf="@id/driverButton"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
