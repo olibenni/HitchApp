@@ -12,25 +12,6 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_role">
 
-    <--!
-        There are two LinearLayout's inside the parent linear layout (line 2 if you are confused)
-        Each LinearLayout packs together an image and text, making it look like a cool button
-        with an icon and text
-        Every LinearLayout has a 'weightSum' parameter its children have a 'layout_weight' paramenter
-                    -weightSum tells us how to divide up the space inside the layout, it can be
-                        any number
-                    -layout_weight tells us how much of the parent the object occupies.
-
-        tl:dr combined layout_weight's inside a parent (should) add up to the weightSum paramenter of the parent
-    -->
-
-    <--!
-        If you plan to play around with the padding (the margins) here is a "formula" to keep in mind
-
-        PassengerButtonTop = DriverButtonBottom = X
-        leftSides = rightSides = X (prefferably)
-        PassengerButtonBottom = DriverButtonTop = X/2
-    -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0pt"
@@ -47,23 +28,11 @@
         android:layout_centerHorizontal="true"
         android:layout_weight="1"
         android:weightSum="2"
+
+        android:clickable="true"
+        android:onClick="onPassenger"
         >
 
-        <--!
-            To play with colors:
-
-                http://paletton.com/#uid=5000u0kllllaFw0g0qFqFg0w0aF
-                You will need 2 color schemes, one for the driver button and one for the passengerbutton
-
-                ImageButton: ImageButton has 2 colors:
-                                -- passangerBackground set as android:background
-                                -- passangerIcon       set as android:tint
-
-                TextView:    TextView has just one color
-                                -- passangerText       set as android:textColor
-
-            The same goes for the driver colors
-        -->
         <ImageButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -73,8 +42,6 @@
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:id="@+id/passengerButton"
-            android:clickable="true"
-            android:onClick="onPassenger"
             android:src="@drawable/thumb"
             android:layout_weight="1.2"
             />
@@ -86,7 +53,7 @@
             android:background="@color/passengerBackground"
             android:layout_gravity="center"
             android:textSize="30sp"
-            android:layout_weigth="0.8"
+            android:layout_weight="0.8"
             android:layout_toRightOf="@id/passengerButton"/>
     </LinearLayout>
 
@@ -105,6 +72,10 @@
         android:layout_centerHorizontal="true"
         android:layout_weight="1"
         android:weightSum="2"
+
+
+        android:clickable="true"
+        android:onClick="onDriver"
         >
 
         <ImageButton
@@ -117,8 +88,6 @@
             android:tint="@color/driverIcon"
             android:paddingLeft="4pt"
             android:id="@+id/driverButton"
-            android:clickable="true"
-            android:onClick="onPassenger"
             android:src="@drawable/steering_wheel"
             android:layout_weight="1.2"
             />
@@ -130,7 +99,7 @@
             android:textSize="30sp"
             android:id="@+id/driverText"
             android:layout_gravity="center"
-            android:layout_weigth="0.8"
+            android:layout_weight="0.8"
             android:layout_toRightOf="@id/driverButton"
             />
 
