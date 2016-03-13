@@ -30,6 +30,7 @@ import com.facebook.FacebookSdk;
  * from the server and storing it.
  */
 public class LogIn extends AppCompatActivity {
+    private final LogIn self = this;
     CallbackManager callbackManager;
 
     @Override
@@ -45,8 +46,11 @@ public class LogIn extends AppCompatActivity {
                     public void onSuccess(LoginResult loginResult) {
                         try {
                             API.logIn();
+                            Intent intent = new Intent(self, Role.class);
+                            startActivity(intent);
                         } catch (IOException e) {
                             System.err.println(e.getMessage());
+
                         }
                     }
                     @Override
