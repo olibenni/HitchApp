@@ -28,6 +28,8 @@ import com.facebook.FacebookSdk;
  *
  * Currently has only one image button that logs into the application by receiving a sessionId
  * from the server and storing it.
+ *
+ * TODO: Handle errors in some consistent manner
  */
 public class LogIn extends AppCompatActivity {
     private final LogIn self = this;
@@ -37,22 +39,23 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Setup for Facebook log in, hasn't been implemented fully.
+        // Setup for Facebook log in
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+
+        // Register a callback when a facebook login attempt has been made.
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
+                    // On a successful facebook login
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         try {
-                            API.logIn();
-                            Intent intent = new Intent(self, Role.class);
-                            startActivity(intent);
+                            logIn();
                         } catch (IOException e) {
                             System.err.println(e.getMessage());
-
                         }
                     }
+                    // Canceling will exit the application
                     @Override
                     public void onCancel() {
                         System.exit(0);
@@ -70,42 +73,23 @@ public class LogIn extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         setContentView(R.layout.activity_log_in);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
+    // Hook up the callbackmanager for facebook
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_log_in, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     // Logs in and opens up the Role activity
     public void onLogIn(View view) throws IOException {
+        logIn();
+    }
+
+    public void logIn() throws IOException{
         API.logIn();
-        Intent intent = new Intent(this, Role.class);
+        Intent intent = new Intent(self, Role.class);
         startActivity(intent);
     }
 
@@ -114,7 +98,7 @@ public class LogIn extends AppCompatActivity {
         super.onResume();
 
         // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
+        AppEventsLogger.activateApp(self);
     }
 
     @Override
@@ -122,7 +106,7 @@ public class LogIn extends AppCompatActivity {
         super.onPause();
 
         // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
+        AppEventsLogger.deactivateApp(self);
     }
 
     @Override

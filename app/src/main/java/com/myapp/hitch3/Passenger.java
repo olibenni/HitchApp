@@ -38,9 +38,8 @@ public class Passenger extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        // Button to access messages
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,10 +65,9 @@ public class Passenger extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
 
                 TextView textView = (TextView) viewClicked;
-                String message = "You clicked # " + position +
-                        " which is string: " + textView.getText().toString();
-
+                String message;
                 if (shouldSend) {
+                    message = "Your request has been sent";
                     dropOffPostalCode = postalCodes[position];
                     try {
                         API.newPassenger(pickupPostalCode, dropOffPostalCode);
@@ -78,11 +76,11 @@ public class Passenger extends AppCompatActivity {
                     }
                     goToMessages();
                 } else {
+                    message = "Now pick a drop off location";
                     pickupPostalCode = postalCodes[position];
                 }
 
                 shouldSend = !shouldSend;
-                // TODO: should not send current message, change to something more informative
                 Toast.makeText(Passenger.this, message, Toast.LENGTH_LONG).show();
             }
         });

@@ -1,26 +1,22 @@
 package com.myapp.hitch3;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.myapp.hitch3.util.API;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ReadMessages extends AppCompatActivity {
-    private Timer timer = new Timer();
-    private List<String> messages = new ArrayList<String>();
-    private final ReadMessages self = this;
+    private List<String> messages;         // The messages from the server
+    private Timer timer = new Timer();     // Used to update the rides from the server periodically
+    private final ReadMessages self = this;// Saves this scope, used when running another thread
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +28,13 @@ public class ReadMessages extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * When activity ReadMessages is not created yet or has been paused (running in background)
+     * it stops updating the messages list.
+     * When ReadMessages resumes, it starts updating the messages list again
+     *
+     * fetches all messages for passenger from server every 5 seconds.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -44,6 +47,10 @@ public class ReadMessages extends AppCompatActivity {
         }, 0, 5000);
     }
 
+    /**
+     * When moving to another activity og moving ReadMessages to the background it stops updating its
+     * messages list.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -51,12 +58,20 @@ public class ReadMessages extends AppCompatActivity {
         timer.purge();
     }
 
+    /**
+     * When moving to another activity og moving ReadMessages to the background it stops updating its
+     * messages list.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
         timer.purge();
     }
+
+    /**
+     * Fetches all messages to the corresponding passenger from the server and updates the view.
+     */
     public void fetchMessages() {
         try {
             messages = API.fetchMessages();
@@ -68,6 +83,9 @@ public class ReadMessages extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the current view
+     */
     public void showMessages() {
         // Dynamic changes in the UI must be handles by separated threads.
         runOnUiThread(new Runnable() {
@@ -86,5 +104,4 @@ public class ReadMessages extends AppCompatActivity {
             }
         });
     }
-
 }

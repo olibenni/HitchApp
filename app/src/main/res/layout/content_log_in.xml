@@ -22,7 +22,8 @@
         android:layout_weight="1"
         android:id="@+id/uno"
         android:background="@color/colorPrimaryDark"
-        ></LinearLayout>
+        android:orientation="horizontal">
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_marginLeft="5pt"
@@ -55,15 +56,16 @@
         android:layout_weight="1"
         android:id="@+id/tres"
         android:background="@color/colorPrimaryDark"
-        >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/logInButton"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-            android:clickable="true"
+        <Button
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:text="Continue without login"
+            android:id="@+id/button"
             android:onClick="onLogIn"
-            android:src="@drawable/facebook" />
+            android:layout_gravity="bottom" />
     </LinearLayout>
 
 

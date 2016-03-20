@@ -95,11 +95,10 @@ public class API {
     }
 
     /**
-     * Currently makes a request that returns the sessionId for further requests.
+     * Makes a request that returns the sessionId for further requests.
      * Sets the cookies for this session. Prints out the sessionId for fun.
      * @throws IOException
      */
-    // TODO: Change documentation when facebook login has been implemented
     public static void logIn()throws IOException {
         //Needed to set the sessionId received from the server
         CookieHandler.setDefault(cookieManager);

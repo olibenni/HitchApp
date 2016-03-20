@@ -1,22 +1,12 @@
 package com.myapp.hitch3;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.myapp.hitch3.dao.RidesDAO;
 import com.myapp.hitch3.util.API;
@@ -40,15 +30,13 @@ import java.util.TimerTask;
  */
 public class Driver extends AppCompatActivity {
     private List<RidesDAO> rides;      // The rides from the server
-    private Timer timer = new Timer(); // Used to update the rides from the server
+    private Timer timer = new Timer(); // Used to update the rides from the server periodically
     private final Driver self = this;  // Saves this scope, used when running another thread
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         registerClickCallback(); // Sets the handle for the click event on the list of rides
     }
@@ -56,7 +44,6 @@ public class Driver extends AppCompatActivity {
     /**
      * Clicking on a ride on the list activates a text box popup/dialog/modal
      * used to send a message to the corresponding passenger
-     * TODO: Currently only shows a message detailing the passenger info. Create the modal
      */
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.availableRides);
@@ -64,21 +51,15 @@ public class Driver extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-
-                TextView textView = (TextView) viewClicked;
-                String message = "You clicked # " + position +
-                        " which is string: " + textView.getText().toString() +
-                        ". Its passengerId is: " + rides.get(position).getId();
                 createMessage(rides.get(position).getId());
-                Toast.makeText(Driver.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     /**
-     * When activity Driver is not created or paused (running in background)
+     * When activity Driver is not created yet or has been paused (running in background)
      * it stops updating the rides list.
-     * When Driver resumes it starts updating the rides list again
+     * When Driver resumes, it starts updating the rides list again
      *
      * fetches all rides from server every 5 seconds.
      */
@@ -141,6 +122,7 @@ public class Driver extends AppCompatActivity {
                 // Create a list of items
                 String[] availableRides = new String[rides.size()];
 
+                // Construct displayed strings
                 for (int i = 0; i < rides.size(); i++) {
                     String ride = "From: " + rides.get(i).getPickup() + " - To: " + rides.get(i).getDropOff();
                     availableRides[i] = ride;
