@@ -30,6 +30,8 @@ import java.util.List;
  */
 public class API {
     static CookieManager cookieManager = new CookieManager();
+//    private static final String host = "http://10.0.2.2:8080";
+    private static final String host = "http://secure-falls-92844.herokuapp.com";
 
     /**
      * Sends a request to create a new ride to the server.
@@ -38,7 +40,7 @@ public class API {
      * @throws IOException
      */
     public static void newPassenger(int pickup, int dropOff) throws IOException {
-        URL url = new URL("http://10.0.2.2:8080/rides/newRide?from="+pickup+"&to="+dropOff);
+        URL url = new URL(host + "/rides/newRide?from="+pickup+"&to="+dropOff);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("PUT");
         try {
@@ -55,7 +57,7 @@ public class API {
      * @throws IOException
      */
     public static void cancelRide() throws IOException{
-        URL url = new URL("http://10.0.2.2:8080/rides/cancelRide");
+        URL url = new URL(host + "/rides/cancelRide");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("DELETE");
         try {
@@ -75,7 +77,7 @@ public class API {
      */
     public static List<RidesDAO> fetchRides() throws IOException, JSONException{
         List<RidesDAO> ridesDAOs = new ArrayList<RidesDAO>();
-        URL url = new URL("http://10.0.2.2:8080/rides");
+        URL url = new URL(host + "/rides");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -103,7 +105,7 @@ public class API {
         //Needed to set the sessionId received from the server
         CookieHandler.setDefault(cookieManager);
 
-        URL url = new URL("http://10.0.2.2:8080/login");
+        URL url = new URL(host + "/login");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.connect();
 
@@ -123,7 +125,7 @@ public class API {
      * @throws IOException
      */
     public static void sendMessage(String message, int id) throws IOException{
-        URL url = new URL("http://10.0.2.2:8080/messages/createMessage?message="+message+"&id="+id);
+        URL url = new URL(host + "/messages/createMessage?message="+message+"&id="+id);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.connect();
@@ -144,7 +146,7 @@ public class API {
      */
     public static List<String> fetchMessages() throws IOException {
         List<String> messages = new ArrayList<String>();
-        URL url = new URL("http://10.0.2.2:8080/messages");
+        URL url = new URL(host + "/messages");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.connect();
 
