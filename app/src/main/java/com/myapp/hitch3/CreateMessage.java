@@ -47,11 +47,21 @@ public class CreateMessage extends Activity {
      * @throws IOException
      */
     public void onSend(View view) throws IOException {
-        EditText inputText = (EditText) findViewById(R.id.inputText);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EditText inputText = (EditText) findViewById(R.id.inputText);
+                // Get the id of the user that was included when creating the activity
+                int id = getIntent().getIntExtra("ID", 0);
+                try {
+                    API.sendMessage(inputText.getText().toString(), id);
+                } catch (IOException e) {
 
-        // Get the id of the user that was included when creating the activity
-        int id = getIntent().getIntExtra("ID", 0);
-        API.sendMessage(inputText.getText().toString(), id);
+                }
+            }
+        });
+        thread.start();
+        finish();
     }
 
 }
