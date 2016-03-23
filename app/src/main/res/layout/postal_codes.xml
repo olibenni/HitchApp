@@ -2,6 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="left"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/listTextBackground"
+    android:textColor="@color/listText"
+    android:layout_marginTop="2.5pt"
+    android:layout_marginBottom="2.5pt"
+    >
 
 </TextView>

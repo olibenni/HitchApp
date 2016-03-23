@@ -101,8 +101,7 @@ public class Passenger extends AppCompatActivity {
                 "109 - Bakkar og Seljahverfi",
                 "110 - Árbær",
                 "111 - Hólar og Fell",
-                "112 - Grafarvogur",
-                "113 - Grafarholt"
+                "112 - Grafarvogur"
         };
 
         // Build adapter
