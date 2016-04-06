@@ -53,6 +53,8 @@
             android:layout_weight="1.75"
             android:id="@+id/inputText"
             android:layout_gravity="bottom"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
             />
 
     </LinearLayout>
@@ -91,6 +93,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Send"
+                android:gravity="center"
                 android:textColor="@color/buttonText"
                 android:background="@color/sendButton"
                 android:layout_gravity="center"
@@ -119,6 +122,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
+                android:gravity="center"
                 android:textColor="@color/buttonText"
                 android:background="@color/cButton"
                 android:layout_gravity="center"
