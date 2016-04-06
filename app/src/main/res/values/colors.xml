@@ -24,10 +24,15 @@
     <color name="cancelButton">#AF283D</color>
 
     <color name="messageBorder">#014C53</color>
-    <color name="messageBackground">#0E7C86</color>
+    <color name="messageBackground">#04575F</color>
+    <color name="messageTextBackground">#106A72</color>
     <color name="messageText">#DD9C14</color>
     <color name="messageTitle">#081F5C</color>
-    <color name="messageButtons">#014C53</color>
+    <color name="sendButton">#343315</color>
+    <color name="cButton">#343315</color>
+    <color name="buttonText">#B5B499</color>
+    <color name="white">#ffffff</color>
+
 
 
 
