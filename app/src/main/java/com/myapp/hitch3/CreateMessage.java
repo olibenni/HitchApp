@@ -31,7 +31,7 @@ public class CreateMessage extends Activity {
         int height = dm.heightPixels;
 
         // Making this activity look as a pop up window only covering 50% of the activity under it
-        getWindow().setLayout((int) (width * 0.5), (int) (height * 0.5));
+        getWindow().setLayout((int) (width * 0.75), (int) (height * 0.75));
     }
 
     /**
