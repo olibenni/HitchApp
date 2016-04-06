@@ -1,45 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#68f56c">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Send message"
-        android:id="@+id/sendMessageHeader"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/sendMessageHeader"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/inputText"
-        android:layout_gravity="center" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/inputText"
-        android:text="Send"
-        android:onClick="onSend"
-        android:id="@+id/sendButton"
-        android:layout_centerVertical="true" />
+    android:layout_marginTop="5pt"
+    android:layout_marginBottom="5pt"
+    android:layout_marginLeft="5pt"
+    android:layout_marginRight="5pt"
+    android:padding="5pt"
+    android:id="@+id/messages"
+    android:background="@color/messageBackground"
+    android:orientation="vertical"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:weightSum="2"
+    >
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/messageEdit"
+        android:background="@color/messageBackground"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1.75"
+        android:weightSum="2"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Send message"
+            android:background="@color/messageBackground"
+            android:id="@+id/sendMessageHeader"
+            android:layout_weight="0.25"
+            android:layout_gravity="top"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/sendMessageHeader"
+            android:background="@color/messageBackground"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_weight="1.75"
+            android:id="@+id/inputText"
+            android:layout_gravity="bottom"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputText"
-        android:layout_toRightOf="@+id/sendButton"
-        android:text="Cancel"
-        android:onClick="onCancel"
-        android:id="@+id/cancelButton"
-        android:layout_centerVertical="true" />
-</RelativeLayout>
+        android:id="@+id/messageButtons"
+        android:background="@color/messageBackground"
+        android:layout_alignParentTop="false"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/messageEdit"
+        android:layout_weight="0.25"
+        android:weightSum="2"
+        >
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:scaleType="fitXY"
+            android:onClick="onSend"
+            android:id="@+id/sendButton"
+            android:layout_weight="1"
+            />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:layout_toRightOf="@+id/sendButton"
+            android:text="Cancel"
+            android:onClick="onCancel"
+            android:id="@+id/cancelButton"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+</LinearLayout>
